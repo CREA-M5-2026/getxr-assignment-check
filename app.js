@@ -9,7 +9,22 @@ const blank=([,,warningOnly])=>({status:'pending',note:'',warningOnly:Boolean(wa
 const blankItem=()=>({status:'pending',note:''});
 const newState=r=>({pre:preDefinitions.map(blank),items:r.features.map(blankItem),hardware:'',overall:'',manual:'',manualReason:''});
 const states=Object.fromEntries(RUBRICS.map(r=>[r.id,newState(r)]));
-let active=RUBRICS[0],state=states[active.id],copyEpoch=0;
+function getSavedId(){
+ const hash=window.location.hash.slice(1);
+ if(RUBRICS.some(r=>r.id===hash))return hash;
+ try{
+  const saved=localStorage.getItem('getxr_assignment');
+  if(RUBRICS.some(r=>r.id===saved))return saved;
+ }catch{}
+ return RUBRICS[0].id;
+}
+let active=RUBRICS.find(r=>r.id===getSavedId())||RUBRICS[0],state=states[active.id],copyEpoch=0;
+function selectAssignment(r){
+ active=r;state=states[r.id];
+ try{localStorage.setItem('getxr_assignment',r.id);}catch{}
+ if(window.location.hash.slice(1)!==r.id)history.replaceState(null,'','#'+r.id);
+ render();
+}
 function el(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
 function makeAssessment(container,entry,key,index){
  const choices=el('div',undefined,'choices');
@@ -53,7 +68,7 @@ function update(){
  $('readiness').textContent=missingNotes?`Add feedback for ${missingNotes} unmet requirement${missingNotes===1?'':'s'}.`:ready?'Review complete. Check the comment before copying.':r.reason;
  $('copy').disabled=!ready;
  const lines=[];
- lines.push(ready?`Grade: ${r.score}/10`:`Grade: ${r.score!==null?r.score:'—'}/10 (Draft)`);
+ lines.push(`Grade: ${r.score!==null?r.score:'—'}/10`);
  preDefinitions.forEach(([t,,warningOnly],i)=>{
   const s=state.pre[i];
   if(!warningOnly && s.status==='fail')lines.push(`❌ ${t}: ${s.note.trim()||'[feedback needed]'}`);
@@ -78,7 +93,7 @@ function update(){
  if(state.overall.trim())lines.push('',state.overall.trim());
  $('output').value=lines.join('\n');
 }
-RUBRICS.forEach(r=>{const b=el('button',undefined,'assignment-nav');b.dataset.id=r.id;b.append(el('span',r.id,'nav-id'),el('span',r.title));b.addEventListener('click',()=>{active=r;state=states[r.id];render();});$('assignments').append(b);});
+RUBRICS.forEach(r=>{const b=el('button',undefined,'assignment-nav');b.dataset.id=r.id;b.append(el('span',r.id,'nav-id'),el('span',r.title));b.addEventListener('click',()=>selectAssignment(r));$('assignments').append(b);});
 for(const [id,key] of [['hardware','hardware'],['overall','overall'],['manual','manual'],['manual-reason','manualReason']]){const el=$(id),fn=()=>{state[key]=el.value;update();};el.addEventListener('input',fn);if(el.tagName==='SELECT')el.addEventListener('change',fn);}
 $('reset').addEventListener('click',()=>{if(!confirm(`Clear all checks and feedback for ${active.id} and start a new submission?`))return;state=states[active.id]=newState(active);render();$('review').focus();window.scrollTo({top:0,behavior:'instant'});});
 $('guidance-toggle').addEventListener('click',()=>{const expand=$('guidance-toggle').getAttribute('aria-pressed')!=='true';document.querySelectorAll('.evaluation-guide').forEach(d=>d.open=expand);$('guidance-toggle').setAttribute('aria-pressed',String(expand));$('guidance-toggle').textContent=expand?'Collapse guidance':'Expand guidance';});
@@ -88,4 +103,13 @@ $('copy').addEventListener('click',async()=>{
  try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(text);if(epoch===copyEpoch)$('copy-status').textContent='Copied. Paste into Canvas.';}
  catch{if(epoch!==copyEpoch)return;$('output').focus();$('output').select();$('output').setSelectionRange?.(0,text.length);$('copy-status').textContent='Text selected. Press Ctrl+C (Windows) or ⌘C (Mac), then paste into Canvas.';}
 });
+window.addEventListener('hashchange',()=>{
+ const hash=window.location.hash.slice(1);
+ const found=RUBRICS.find(r=>r.id===hash);
+ if(found && found.id!==active.id)selectAssignment(found);
+});
+try{localStorage.setItem('getxr_assignment',active.id);}catch{}
+if(window.location.hash.slice(1)!==active.id && window.location.hash!=='#review'){
+ history.replaceState(null,'','#'+active.id);
+}
 render();
