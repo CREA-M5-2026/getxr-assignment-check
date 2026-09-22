@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="description" content="GETXR Foundation Assignment grading checklists, evaluation guidance and Canvas feedback. Runs entirely in your browser.">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>GETXR · Assignment Check</title>
+ <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b3760'/%3E%3Cpath d='m8 16 5 5 11-12' fill='none' stroke='%239ce6cc' stroke-width='4'/%3E%3C/svg%3E">
+ <link rel="stylesheet" href="styles.css">
+ <script src="rubrics.js" defer></script><script src="guidance.js" defer></script><script src="grading.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+ <a class="skip" href="#review">Skip to checklist</a>
+ <header><h1>GETXR <span class="muted-brand">/ Assignment Check</span></h1><span class="local">Local mode · clears on reload</span></header>
+ <nav aria-label="Foundation assignments"><div id="assignments"></div></nav>
+ <div class="workspace">
+
+  <main id="review" tabindex="-1">
+   <div class="assignment-head"><div><p class="eyebrow" id="assignment-number"></p><h2 id="assignment-title"></h2></div><button id="reset" class="quiet">New submission</button></div>
+   <div class="source-line"><a id="source" target="_blank" rel="noopener noreferrer">Assignment in Notion ↗</a><span>Checked 22 Sep 2026</span></div>
+   <div id="draft-notice" class="notice" hidden>Notion marks this assignment as work in progress. Confirm the linked rubric is still current before grading.</div>
+   <section class="panel"><div class="section-heading"><h3>Submission requirements</h3><span class="hint">Any failure → 0/10</span></div><div id="prerequisites"></div>
+    <div id="hardware-wrap" hidden><label class="field-label" for="hardware">A6 demonstration</label><select id="hardware"><option value="">Choose evidence…</option><option value="headset">Running on a real headset</option><option value="simulator">XR Device Simulator only · cap 8</option></select></div>
+   </section>
+   <section class="checklist-section"><div class="section-heading"><h3>Feature checklist</h3><span id="progress-label" class="count"></span><button id="guidance-toggle" class="quiet" aria-pressed="false">Expand guidance</button></div><progress id="progress" max="1" value="0" aria-label="Checklist review progress"></progress><p class="intro">Check what works. Mark failures “Not met” and add feedback. Blank = unreviewed.</p><div id="checklist"></div></section>
+   <section class="overall-section"><label class="field-label" for="overall">Overall feedback <span class="hint">(optional)</span></label><textarea id="overall" rows="2" placeholder="Add a useful next step or an overall observation."></textarea></section>
+   <details class="rubric panel"><summary>Published grading scale & evaluation notes</summary><div id="scale"></div><p id="scale-note"></p><p>The walkthrough should show each feature working and identify the script or method responsible. Broken items can be acknowledged briefly. The shared guide asks for a narrated screen recording under 2 minutes; do not invent a separate timing penalty.</p><p>Guidance under each item helps you inspect the evidence; it does not add separately scored criteria. Checklist items are combined requirements, not independent points.</p><a href="https://app.notion.com/p/3bd88488af4981a980e1c8b008a75a3e" target="_blank" rel="noopener noreferrer">Shared assessment & grading rules ↗</a></details>
+  </main>
+  <aside aria-label="Grade and Canvas feedback"><div class="summary-panel"><h3>Canvas feedback</h3><div class="score-row"><strong id="score">—</strong><span>/ 10</span><span id="grade-state" class="badge">In review</span></div><details class="score-details"><summary>Grade calculation</summary><p id="score-reason"></p><div id="caps"></div></details><div id="manual-wrap" hidden><label class="field-label" for="manual">Instructor-confirmed rubric grade</label><select id="manual"><option value="">Awaiting decision…</option><option>0</option><option>2</option><option>4</option><option>6</option><option>8</option><option>10</option></select><label class="field-label" for="manual-reason">Decision and rationale</label><textarea id="manual-reason" rows="3" placeholder="Record the instructor’s decision before finalizing."></textarea></div><div id="readiness" role="status" aria-live="polite"></div><label class="field-label" for="output">Combined feedback</label><textarea id="output" rows="12" readonly spellcheck="false" aria-describedby="output-hint"></textarea><p id="output-hint" class="hint">Review, copy, then paste into Canvas.</p><button id="copy" class="primary" disabled>Copy Canvas comment</button><p id="copy-status" class="hint" role="status" aria-live="polite"></p></div></aside>
+ </div>
+ <noscript>This grading helper needs JavaScript enabled. All calculations run locally in the browser.</noscript>
+</body>
+</html>
