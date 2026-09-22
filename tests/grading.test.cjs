@@ -2,7 +2,7 @@ const assert=require('node:assert/strict');
 require('../rubrics.js');require('../guidance.js');
 const {calculate,result}=require('../grading.js');
 const rubric=id=>globalThis.RUBRICS.find(r=>r.id===id);
-const fixture=(id,fail=[])=>({pre:Array.from({length:4},()=>({status:'pass',note:''})),items:rubric(id).features.map((_,i)=>({status:fail.includes(i+1)?'fail':'pass',note:'Observed issue'})),hardware:'headset',manual:'',manualReason:''});
+const fixture=(id,fail=[])=>({pre:[{status:'pass',note:'',warningOnly:true},{status:'pass',note:'',warningOnly:false},{status:'pass',note:'',warningOnly:false}],items:rubric(id).features.map((_,i)=>({status:fail.includes(i+1)?'fail':'pass',note:'Observed issue'})),hardware:'headset',manual:'',manualReason:''});
 const grade=(id,fail=[],overrides={})=>result(rubric(id),Object.assign(fixture(id,fail),overrides));
 const cases=[
  ['A1',[],10],['A1',[4],8],['A1',[4,5],6],['A1',[4,5,6],4],['A1',[3],6],['A1',[1],4],['A1',[1,2],2],['A1',[3,4,5,6,7],4],
@@ -29,11 +29,17 @@ for(const r of globalThis.RUBRICS){
   assert.ok(g.ambiguous || [0,2,4,6,8,10].includes(g.score));
   if(g.ambiguous)assert.ok(['A2','A3'].includes(r.id));
  }
- for(let i=0;i<4;i++){
+ for(const i of [1,2]){
   const s=fixture(r.id);s.pre[i].status='fail';s.items.forEach(x=>x.status='pending');
-  assert.equal(calculate(r,s).score,0,'Confirmed prerequisite failures override an unfinished checklist');
+  assert.equal(calculate(r,s).score,0,'Confirmed fatal prerequisite failures override an unfinished checklist');
   s.pre[i].status='pending';assert.equal(calculate(r,s).score,null);
  }
+ const sWarnPending=fixture(r.id);sWarnPending.pre[0].status='fail';sWarnPending.items.forEach(x=>x.status='pending');
+ assert.equal(calculate(r,sWarnPending).score,null,'Repo URL warning does not trigger automatic 0 while checklist is pending');
+ const sWarnPass=fixture(r.id);sWarnPass.pre[0].status='fail';
+ const gWarn=result(r,sWarnPass);
+ assert.equal(gWarn.score,10,'Repo URL warning does not reduce passing score to 0');
+ assert.ok(gWarn.caps.some(c=>c.includes('Repository URL')));
  const unfinished=fixture(r.id);unfinished.items[0].status='pending';assert.equal(calculate(r,unfinished).score,null);
 }
 console.log(`${cases.length} explicit score-band cases; simulator caps, review decisions, prerequisites and all 688 binary checklist combinations passed.`);

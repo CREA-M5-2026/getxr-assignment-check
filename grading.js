@@ -2,7 +2,8 @@
  'use strict';
  function calculate(rubric, state) {
   const prerequisites = state.pre;
-  if (prerequisites.some(x => x.status === 'fail')) return {score:0, reason:'A submission prerequisite or code explanation requirement is not met.', automaticZero:true};
+  const fatalFail = prerequisites.some(x => x.status === 'fail' && !x.warningOnly);
+  if (fatalFail) return {score:0, reason:'A submission prerequisite or code explanation requirement is not met.', automaticZero:true};
   if (prerequisites.some(x => x.status === 'pending') || state.items.some(x => x.status === 'pending')) return {score:null, pending:true, reason:'Review the submission requirements and every checklist item.'};
   const failed = state.items.map(x => x.status === 'fail');
   const core = rubric.features.filter((x,i)=>x.core && failed[i]).length;
@@ -50,6 +51,9 @@
   if(rubric.id==='A6' && !base.automaticZero && !state.hardware) return {...base,score:null,pending:true,reason:'Confirm whether the demonstration uses a headset or only the simulator.'};
   const raw=score, caps=[];
   if(rubric.id==='A6' && state.hardware==='simulator') {score=Math.min(score,8);caps.push('Simulator ceiling: 8/10');}
+  if(!base.automaticZero && state.pre?.some(x => x.warningOnly && x.status === 'fail')) {
+   caps.push('Warning: Repository URL missing or invalid on Canvas (advisory warning; grade not reduced to 0).');
+  }
   return {...base,score,raw,reason,caps};
  }
  root.Grading={calculate,result};

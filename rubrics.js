@@ -10,36 +10,43 @@ globalThis.RUBRICS = [
       {
         "number": 1,
         "title": "Object moves in real time along independent world-space axes (e.g. A/D → left/right, W/S → forward/back) strafe mapping, not a tank-control scheme",
+        "short": "Real-time world-space movement",
         "core": true
       },
       {
         "number": 2,
         "title": "Movement speed is independent of framerate",
+        "short": "Framerate-independent movement speed",
         "core": true
       },
       {
         "number": 3,
         "title": "Movement values are exposed via the Inspector, not hardcoded",
+        "short": "Movement values exposed in Inspector",
         "core": true
       },
       {
         "number": 4,
         "title": "Movement has the same speed diagonally as it does along axes",
+        "short": "Equal diagonal movement speed",
         "core": false
       },
       {
         "number": 5,
         "title": "Player object is saved as a Prefab",
+        "short": "Player saved as a Prefab",
         "core": false
       },
       {
         "number": 6,
         "title": "Holding Left Shift sprints using an Inspector-exposed running speed",
+        "short": "Left Shift sprint with exposed speed",
         "core": false
       },
       {
         "number": 7,
         "title": "Camera is parented to the Player object so it follows the player",
+        "short": "Camera parented to Player object",
         "core": false
       }
     ],
@@ -80,41 +87,49 @@ globalThis.RUBRICS = [
       {
         "number": 1,
         "title": "Spawner instantiates prefabs on a timed interval (Time.deltaTime accumulator, not unconditional every frame in Update)",
+        "short": "Timed interval spawner",
         "core": true
       },
       {
         "number": 2,
         "title": "Spawner can be activated and deactivated in-game (e.g. via key press toggle or trigger switch), cleanly pausing and resuming instantiation",
+        "short": "In-game spawner toggle (pause/resume)",
         "core": true
       },
       {
         "number": 3,
         "title": "Active spawned instances are tracked in a List with an enforced maximum capacity limit",
+        "short": "Active instances tracked in List with capacity limit",
         "core": true
       },
       {
         "number": 4,
         "title": "Contact between player and spawned objects is detected via physics triggers (OnTriggerEnter) or collisions (OnCollisionEnter)",
+        "short": "Contact detection via triggers or collisions",
         "core": true
       },
       {
         "number": 5,
         "title": "Contact triggers a visible game state change (e.g. score variable updating in the Inspector or Console)",
+        "short": "Visible game state change on contact",
         "core": true
       },
       {
         "number": 6,
         "title": "Spawned objects are despawned/destroyed (Destroy(gameObject)) upon collection",
+        "short": "Despawn/destroy on collection",
         "core": false
       },
       {
         "number": 7,
         "title": "Spawned objects leaving the play area are destroyed (boundary trigger volume or position check in Update). To show that, drag the spawned object DURING play mode while in the Scene view to show it being destroyed at runtime. A lifetime timer where the collectible destroys itself after a certain amount of time is also accepted for this checklist item.",
+        "short": "Out-of-bounds / lifetime cleanup",
         "core": false
       },
       {
         "number": 8,
         "title": "Destroyed object references are cleared from the active list without null-reference errors, decrementing the list count",
+        "short": "Destroyed references cleared from active list",
         "core": false
       }
     ],
@@ -155,36 +170,43 @@ globalThis.RUBRICS = [
       {
         "number": 1,
         "title": "Movement input is configured and read through an Input Actions asset (.inputactions Action Map and 2D Vector Composite bindings, not direct device polling or legacy Input.GetAxis)",
+        "short": "Input Actions asset (.inputactions & composite bindings)",
         "core": true
       },
       {
         "number": 2,
         "title": "A responsive first-person camera (child camera with body yaw and clamped pitch [-90f, 90f] driven by /delta Input Action) makes movement legible, with look sensitivity exposed in the Inspector",
+        "short": "First-person camera (yaw & clamped pitch)",
         "core": true
       },
       {
         "number": 3,
         "title": "Player moves via a CharacterController component with gravity accumulation and a grounding check (isGrounded), with movement speed exposed in the Inspector",
+        "short": "CharacterController movement & gravity",
         "core": true
       },
       {
         "number": 4,
         "title": "An action-driven Jump, read through the same Input Actions asset as Move, and dependant on isGrounded so it cannot trigger mid-air, with jump height exposed in the Inspector",
+        "short": "Action-driven grounded Jump",
         "core": true
       },
       {
         "number": 5,
         "title": "At least one collectible detects player contact (OnTriggerEnter) and is collected on touch, despawning it and registering in game state (e.g. score)",
+        "short": "Collectible pickup & state update",
         "core": true
       },
       {
         "number": 6,
         "title": "At least one power-up responds to a deliberate aimed action rather than contact: a camera raycast finds it and an Interact action, read through the same Input Actions asset, activates it — temporarily boosting the Player's movement speed and reverting on expiration via a Coroutine or a tracked expiry time.",
+        "short": "Aimed raycast power-up & timed speed boost",
         "core": false
       },
       {
         "number": 7,
         "title": "At least one hazard object detects player contact and causes a visible impact (damage, knockback, or respawn)",
+        "short": "Hazard contact & visible impact",
         "core": false
       }
     ],
@@ -225,36 +247,43 @@ globalThis.RUBRICS = [
       {
         "number": 1,
         "title": "Point-and-click locomotion via NavMeshAgent: clicking walkable ground sends the character there, with a destination marker and a confirmation sound at the click point",
+        "short": "NavMesh click locomotion, marker & sound",
         "core": true
       },
       {
         "number": 2,
         "title": "A pursuing agent follows the player and costs health on contact at a controlled rate — a cooldown, or another way of stopping sustained contact from draining the bar",
+        "short": "Pursuing agent with rate-limited damage",
         "core": true
       },
       {
         "number": 3,
         "title": "Responsive dual-anchor HUD: score and health both update live, pinned to opposite screen edges, and hold across aspect ratios",
+        "short": "Dual-anchor responsive HUD",
         "core": true
       },
       {
         "number": 4,
         "title": "Every contact event is felt, and the power-up does its job: pickup, being hit, and power-up activation each have a sound and a particle effect, and the power-up speeds the character up for a limited time before reverting",
+        "short": "Audio & particle FX for pickup, hit, power-up",
         "core": true
       },
       {
         "number": 5,
         "title": "In the video, you explain what the move click, HUD, pickup, hit and power-up feedback each tell the player, or what confusion they remove — not just that they work",
+        "short": "Video explanation of UX feedback rationale",
         "core": true
       },
       {
         "number": 6,
         "title": "A click that lands on the level somewhere the agent cannot reach (a wall, or a platform it cannot reach) gets a distinct response, clearly different from a confirmed move",
+        "short": "Distinct response for unreachable clicks",
         "core": false
       },
       {
         "number": 7,
         "title": "Sound is placed deliberately: at least one source is partially 3D and clearly audible from where the listener is (the pursuer is the obvious candidate), and at least one is 2D",
+        "short": "Deliberate audio spatial placement (2D & 3D)",
         "core": false
       }
     ],
@@ -295,26 +324,31 @@ globalThis.RUBRICS = [
       {
         "number": 1,
         "title": "An image target is detected through the webcam in Play Mode",
+        "short": "Webcam image target detection",
         "core": true
       },
       {
         "number": 2,
         "title": "A 3D object is anchored to the marker, appearing when it is tracked and disappearing when tracking is lost",
+        "short": "3D object anchored to marker (track/lost)",
         "core": true
       },
       {
         "number": 3,
         "title": "At least one user interaction changes the anchored object, driven by your own script",
+        "short": "User interaction script altering object",
         "core": true
       },
       {
         "number": 4,
         "title": "The 3–5 sentence note mapping the prototype to Week 6's XR concepts is submitted alongside the video",
+        "short": "XR concept note submitted with video",
         "core": true
       },
       {
         "number": 5,
         "title": "Tracking is stable enough to interact with. It does not have to be perfect, just usable",
+        "short": "Stable, usable tracking",
         "core": false
       }
     ],
@@ -355,21 +389,25 @@ globalThis.RUBRICS = [
       {
         "number": 1,
         "title": "Teleportation locomotion works",
+        "short": "Teleportation locomotion",
         "core": true
       },
       {
         "number": 2,
         "title": "At least two distinct objects can be grabbed",
+        "short": "Two distinct grabbable objects",
         "core": true
       },
       {
         "number": 3,
         "title": "Grabbed objects can be placed in a socket or trigger to complete the stated goal, with some observable confirmation (visual or audio cue, Debug.Log, or Inspector value — no full UI needed)",
+        "short": "Socket/trigger placement completing goal",
         "core": true
       },
       {
         "number": 4,
         "title": "At least one working building block from an earlier assignment (UI, menu, audio, or FX) is reused in the scene",
+        "short": "Reused building block from earlier assignment",
         "core": false
       }
     ],
