@@ -48,8 +48,21 @@ function render(){
  $('checklist').replaceChildren();active.features.forEach((f,i)=>{const card=el('article',undefined,'criterion');const head=el('div',undefined,'criterion-head');head.append(el('span',String(f.number),'number'));const heading=el('div');heading.append(el('span',f.core?'Core':'Supporting',f.core?'tier':'tier support'),el('h4',f.title,'criterion-title'));head.append(heading);card.append(head);makeAssessment(card,state.items[i],'feature',i);const details=el('details',undefined,'evaluation-guide');details.append(el('summary','How to evaluate'));const evidence=el('div',undefined,'evidence');const [video,code]=GUIDANCE[active.id][i];for(const [label,text] of [['Video',video],['Code / setup',code]]){const p=el('p');p.append(el('strong',label),document.createTextNode(text));evidence.append(p);}details.append(evidence);card.append(details);$('checklist').append(card);});
  $('guidance-toggle').textContent='Expand guidance';$('guidance-toggle').setAttribute('aria-pressed','false');
  for(const [id,key] of [['hardware','hardware'],['overall','overall'],['manual','manual'],['manual-reason','manualReason']])$(id).value=state[key];
- $('hardware-wrap').hidden=active.id!=='A6';$('scale').replaceChildren();active.scale.forEach(s=>{const p=el('p');p.append(el('strong',`${s.score}/10: `),document.createTextNode(s.text));$('scale').append(p);});
- $('scale-note').textContent=active.id==='A1'?'Implementation note: A1 uses named-item ceilings. Where conditions overlap, this helper applies the lowest ceiling; “several” missing Supporting items means 3 or 4.':(['A2','A3'].includes(active.id)?'Undefined combinations are sent for instructor review. Record the instructor-confirmed score and rationale to continue.':'The published assignment scale is applied with the A6 simulator ceiling where applicable.');
+ $('hardware-wrap').hidden=active.id!=='A6';
+ function populateScale(scId,noteId){
+  const sc=$(scId);if(!sc)return;
+  sc.replaceChildren();
+  active.scale.forEach(s=>{
+   const p=el('p');
+   p.dataset.score=String(s.score);
+   p.append(el('strong',`${s.score}/10: `),document.createTextNode(s.text));
+   sc.append(p);
+  });
+  const sn=$(noteId);if(!sn)return;
+  sn.textContent=active.id==='A1'?'Implementation note: A1 uses named-item ceilings. Where conditions overlap, this helper applies the lowest ceiling; “several” missing Supporting items means 3 or 4.':(['A2','A3'].includes(active.id)?'Undefined combinations are sent for instructor review. Record the instructor-confirmed score and rationale to continue.':(active.id==='A6'?'Simulator ceiling: a submission demonstrated only in the XR Device Simulator scores whichever is lower, the scale above or 8/10.':'The published assignment scale applies directly.'));
+ }
+ populateScale('scale','scale-note');
+ populateScale('main-scale','main-scale-note');
  update();
 }
 function update(){
@@ -65,6 +78,10 @@ function update(){
  $('grade-state').textContent=ready?'Ready to copy':base.ambiguous?'Review decision':'In review';$('grade-state').classList.toggle('ready',ready);
  $('score-reason').textContent=r.reason;
  $('caps').replaceChildren();(r.caps||[]).forEach(x=>$('caps').append(el('p',x)));
+ document.querySelectorAll('.calc-scale p').forEach(p=>{
+  const isMatch=r.score!==null && p.dataset.score===String(r.score);
+  p.classList.toggle('active-tier',isMatch);
+ });
  $('readiness').textContent=missingNotes?`Add feedback for ${missingNotes} unmet requirement${missingNotes===1?'':'s'}.`:ready?'Review complete. Check the comment before copying.':r.reason;
  $('copy').disabled=!ready;
  const lines=[];

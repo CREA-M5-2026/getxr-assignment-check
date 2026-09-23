@@ -19,7 +19,6 @@
    if (support===2) ceilings.push(6);
    if (support>=3) ceilings.push(4);
    score=Math.min(...ceilings);
-   reason='A1 named-item scale; the lowest applicable ceiling is used (3–4 missing Supporting items = “several”).';
   } else if (rubric.id === 'A2') {
    if(core>=3) score=2;
    else if(core===2 || (core===1 && support>=2)) score=4;
@@ -38,7 +37,8 @@
    score=core>=3?2:core===2?4:core===1?6:support?8:10;
   }
   if(score===null) return {score:null, ambiguous:true, core, support, reason:`The published ${rubric.id} scale does not assign a score for ${core} failed Core and ${support} failed Supporting item(s). Instructor review required.`};
-  return {score, core, support, reason:reason || `${core} Core and ${support} Supporting item(s) not met; ${rubric.id} published grading scale.`};
+  const matched=rubric.scale.find(s=>s.score===score);
+  return {score, core, support, reason:matched?`${score}/10: ${matched.text}`:`${core} Core and ${support} Supporting item(s) not met; ${rubric.id} published grading scale.`};
  }
  function result(rubric,state) {
   const base=calculate(rubric,state);
