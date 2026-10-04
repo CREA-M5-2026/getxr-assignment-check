@@ -1,4 +1,4 @@
-// Snapshot of the live Notion assignment pages, retrieved 2026-09-22.
+// Snapshot of the live Notion assignment pages, retrieved 2026-09-22. A5 updated 2026-10-04.
 globalThis.RUBRICS = [
   {
     "id": "A1",
@@ -318,52 +318,64 @@ globalThis.RUBRICS = [
     "id": "A5",
     "title": "Webcam Marker AR",
     "url": "https://app.notion.com/p/3c188488af4981c99bc8e9ad984758a6",
-    "edited": "2026-09-12T20:05:04.746Z",
-    "workInProgress": true,
+    "edited": "2026-10-04T12:20:00.000Z",
+    "workInProgress": false,
     "features": [
       {
         "number": 1,
-        "title": "An image target is detected through the webcam in Play Mode",
-        "short": "Webcam image target detection",
+        "title": "Your own script keeps Doggy on the card with tag ID 1. He stands on it, follows it smoothly and is hidden while it is not in view",
+        "short": "Doggy on his card (own script, tag ID 1)",
         "core": true
       },
       {
         "number": 2,
-        "title": "A 3D object is anchored to the marker, appearing when it is tracked and disappearing when tracking is lost",
-        "short": "3D object anchored to marker (track/lost)",
+        "title": "While the treat is within a distance set in the Inspector, Doggy's jaw is open. It opens and closes smoothly through your script, and a sound that you provided plays as it opens",
+        "short": "Jaw opens while the treat is close, with sound",
         "core": true
       },
       {
         "number": 3,
-        "title": "At least one user interaction changes the anchored object, driven by your own script",
-        "short": "User interaction script altering object",
+        "title": "After the treat has been in range for a time set in the Inspector, Doggy becomes happy: your script switches the supplied tail animation on, and a sound and a particle effect that you provided play. The tail stops when the treat leaves",
+        "short": "Happy after hold time: tail wag, sound, particles",
         "core": true
       },
       {
         "number": 4,
-        "title": "The 3–5 sentence note mapping the prototype to Week 6's XR concepts is submitted alongside the video",
-        "short": "XR concept note submitted with video",
+        "title": "Losing the treat card or the dog card closes the jaw, ends the happy state and resets the timer. It works again when both cards return. A particle effect and a sound that you provided play when Doggy's card or the treat's card disappears, and when it appears. In the video you break tracking on purpose and say why it broke",
+        "short": "Tracking loss resets; effects on appear/disappear",
         "core": true
       },
       {
         "number": 5,
-        "title": "Tracking is stable enough to interact with. It does not have to be perfect, just usable",
-        "short": "Stable, usable tracking",
-        "core": false
+        "title": "Doggy's head turns smoothly towards the treat, also when the dog card is turned, and stays within a turn limit set in the Inspector",
+        "short": "Head follows the treat within a turn limit",
+        "core": false,
+        "tier": "9th point"
+      },
+      {
+        "number": 6,
+        "title": "Two dogs: a second Doggy on the card with tag ID 2, both dogs react to the treat, and they affect each other in at least one visible way that you invented",
+        "short": "Two dogs that affect each other",
+        "core": false,
+        "tier": "10th point"
       }
     ],
     "scale": [
       {
         "score": 10,
-        "text": "Items 1–5 all work."
+        "text": "Items 1–6 all work."
+      },
+      {
+        "score": 9,
+        "text": "Items 1–5 work, but the two dogs do not work as described in item 6."
       },
       {
         "score": 8,
-        "text": "All Core items (1–4) work, but item 5 does not. Tracking is present but too jittery to actually use."
+        "text": "All Core items (1–4) work, but the head does not follow the treat within its limit (item 5)."
       },
       {
         "score": 6,
-        "text": "Exactly one Core item fails. For example, everything works but the concept note was not submitted. This is the minimum grade that counts as a passing assignment for the drop-lowest-grade reward."
+        "text": "Exactly one Core item fails. For example, everything works but the happy state has no sound or particle effect. This is the minimum grade that counts as a passing assignment for the drop-lowest-grade reward."
       },
       {
         "score": 4,

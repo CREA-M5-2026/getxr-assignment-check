@@ -9,7 +9,7 @@ const cases=[
  ['A2',[],10],['A2',[6],8],['A2',[6,7],6],['A2',[1],6],['A2',[1,6,7],4],['A2',[1,2],4],['A2',[1,2,3],2],['A2',[6,7,8],null],['A2',[1,6],null],
  ['A3',[],10],['A3',[6],8],['A3',[1],6],['A3',[1,6],6],['A3',[1,2],4],['A3',[1,2,3],2],['A3',[6,7],null],['A3',[1,6,7],null],
  ['A4',[],10],['A4',[6,7],8],['A4',[1],6],['A4',[1,6],4],['A4',[1,2],4],['A4',[1,2,3],2],
- ['A5',[],10],['A5',[5],8],['A5',[4,5],6],['A5',[1,2],4],['A5',[1,2,3],2],
+ ['A5',[],10],['A5',[6],9],['A5',[5],8],['A5',[5,6],8],['A5',[4],6],['A5',[4,5,6],6],['A5',[1,2],4],['A5',[1,2,3],2],
  ['A6',[],10],['A6',[4],8],['A6',[1,4],6],['A6',[1,2],4],['A6',[1,2,3],2]
 ];
 for(const [id,fail,expected] of cases)assert.equal(grade(id,fail).score,expected,`${id}: failed ${fail}`);
@@ -21,12 +21,12 @@ assert.equal(grade('A3',[6,7],{manual:'6',manualReason:' '}).score,null);
 assert.equal(grade('A3',[6,7],{manual:'7',manualReason:'Invalid band'}).score,null);
 for(const r of globalThis.RUBRICS){
  assert.equal(r.features.length,globalThis.GUIDANCE[r.id].length);
- assert.equal(r.scale.length,6);
+ assert.equal(r.scale.length,r.id==='A5'?7:6);
  // Every binary checklist state either yields a published band or an explicit review case.
  for(let bits=0;bits<2**r.features.length;bits++){
   const fail=r.features.filter((_,i)=>bits&(1<<i)).map(x=>x.number);
   const g=grade(r.id,fail);
-  assert.ok(g.ambiguous || [0,2,4,6,8,10].includes(g.score));
+  assert.ok(g.ambiguous || [0,2,4,6,8,10].includes(g.score) || (r.id==='A5' && g.score===9));
   if(g.ambiguous)assert.ok(['A2','A3'].includes(r.id));
  }
  for(const i of [1,2]){
@@ -42,4 +42,4 @@ for(const r of globalThis.RUBRICS){
  assert.ok(gWarn.caps.some(c=>c.includes('Repository URL')));
  const unfinished=fixture(r.id);unfinished.items[0].status='pending';assert.equal(calculate(r,unfinished).score,null);
 }
-console.log(`${cases.length} explicit score-band cases; simulator caps, review decisions, prerequisites and all 688 binary checklist combinations passed.`);
+console.log(`${cases.length} explicit score-band cases; simulator caps, review decisions, prerequisites and all 720 binary checklist combinations passed.`);

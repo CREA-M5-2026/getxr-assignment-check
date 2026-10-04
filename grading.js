@@ -33,6 +33,9 @@
    else if(core===0 && support===0) score=10;
   } else if (rubric.id === 'A4') {
    score=core>=3?2:core===2?4:core===1?(support?4:6):support?8:10;
+  } else if (rubric.id === 'A5') {
+   // Item 5 is the 9th point and counts only when all Core items work. Item 6 is the 10th and counts only when item 5 works.
+   score=core>=3?2:core===2?4:core===1?6:failed[4]?8:failed[5]?9:10;
   } else {
    score=core>=3?2:core===2?4:core===1?6:support?8:10;
   }
