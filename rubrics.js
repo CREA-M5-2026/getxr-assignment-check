@@ -1,4 +1,4 @@
-// Snapshot of the live Notion assignment pages, retrieved 2026-09-22. A5 updated 2026-10-04.
+// Snapshot of the live Notion assignment pages, retrieved 2026-09-22. A5 updated 2026-10-04; A6 rewritten 2026-10-10.
 globalThis.RUBRICS = [
   {
     "id": "A1",
@@ -318,7 +318,7 @@ globalThis.RUBRICS = [
     "id": "A5",
     "title": "Webcam Marker AR",
     "url": "https://app.notion.com/p/3c188488af4981c99bc8e9ad984758a6",
-    "edited": "2026-10-04T12:20:00.000Z",
+    "edited": "2026-10-04T13:03:03.234Z",
     "workInProgress": false,
     "features": [
       {
@@ -341,7 +341,7 @@ globalThis.RUBRICS = [
       },
       {
         "number": 4,
-        "title": "Losing the treat card or the dog card closes the jaw, ends the happy state and resets the timer. It works again when both cards return. A particle effect and a sound that you provided play when Doggy's card or the treat's card disappears, and when it appears. In the video you break tracking on purpose and say why it broke",
+        "title": "Losing the treat card or the dog card closes the jaw, ends the happy state and resets the timer. It works again when both cards return. A particle effect and a sound that you provided play when Doggy's card or the treat's card disappears, and when it appears. In the video you break tracking on purpose",
         "short": "Tracking loss resets; effects on appear/disappear",
         "core": true
       },
@@ -395,58 +395,76 @@ globalThis.RUBRICS = [
     "id": "A6",
     "title": "VR Basics",
     "url": "https://app.notion.com/p/3c188488af49811294bec19234be5215",
-    "edited": "2026-09-12T20:05:15.708Z",
-    "workInProgress": true,
+    "edited": "2026-10-10T19:14:01.469Z",
+    "workInProgress": false,
+    "scoring": "points",
+    "videoLabel": "Both recordings (Play + Desktop) submitted on Canvas",
+    "guidanceLabels": [
+      "Play recording",
+      "Desktop recording"
+    ],
     "features": [
       {
         "number": 1,
-        "title": "Teleportation locomotion works",
-        "short": "Teleportation locomotion",
-        "core": true
+        "title": "Teleport and snap turn. The player pushes the thumbstick forward to aim at a Teleportation Area (the floor or the rug), releases it, and lands there. Pushing a thumbstick left or right turns the view in fixed steps.",
+        "short": "Teleport and snap turn",
+        "core": false,
+        "points": 2,
+        "tier": "2 points"
       },
       {
         "number": 2,
-        "title": "At least two distinct objects can be grabbed",
-        "short": "Two distinct grabbable objects",
-        "core": true
+        "title": "Two grabbable objects. These can be your task objects from Part B. Both can be picked up. At least one has its own Attach Transform, so it is held at a sensible point such as a handle, not by its pivot.",
+        "short": "Two grabbable objects, one with Attach Transform",
+        "core": false,
+        "points": 2,
+        "tier": "2 points"
       },
       {
         "number": 3,
-        "title": "Grabbed objects can be placed in a socket or trigger to complete the stated goal, with some observable confirmation (visual or audio cue, Debug.Log, or Inspector value — no full UI needed)",
-        "short": "Socket/trigger placement completing goal",
-        "core": true
+        "title": "Each task socket accepts only its own object. Holding the wrong object at a socket shows no preview and does not snap in.",
+        "short": "Each socket accepts only its own object",
+        "core": false,
+        "points": 2,
+        "tier": "2 points"
       },
       {
         "number": 4,
-        "title": "At least one working building block from an earlier assignment (UI, menu, audio, or FX) is reused in the scene",
-        "short": "Reused building block from earlier assignment",
-        "core": false
+        "title": "Progress display. A world-space text shows placed / total, for example \"1/2\". The total comes from the number of sockets in the script's list, not a typed number. The count is based on which sockets hold an object (hasSelection) and updates both when an object is placed (selectEntered) and when it is taken out (selectExited). When Play starts it shows nothing placed, for example \"0/2\".",
+        "short": "World-space progress display (placed / total)",
+        "core": false,
+        "points": 2,
+        "tier": "2 points"
+      },
+      {
+        "number": 5,
+        "title": "Response when complete. When every socket is filled, an object in the room moves, rotates or fades to an \"open\" state over about a second or longer, not instantly. Use Lerp or MoveTowards in Update(). A sound or particle effect plays once at the moment the goal is completed, not every frame.",
+        "short": "Gradual response on completion, effect once",
+        "core": false,
+        "points": 1,
+        "tier": "1 point"
+      },
+      {
+        "number": 6,
+        "title": "Reversing. Taking any object out while the goal is complete moves the response smoothly back to its starting state, from wherever it is. Placing the object back opens it again and plays the effect again.",
+        "short": "Response reverses when an object is removed",
+        "core": false,
+        "points": 1,
+        "tier": "1 point"
       }
     ],
     "scale": [
       {
         "score": 10,
-        "text": "Items 1–4 all work, shown running on a headset."
-      },
-      {
-        "score": 8,
-        "text": "All Core items (1–3) work, but item 4 is missing or does not function."
+        "text": "All six items work as described and are shown in both recordings."
       },
       {
         "score": 6,
-        "text": "Exactly one Core item fails. For example, teleportation and grabbing work but the goal cannot quite be completed. This is the minimum grade that counts as a passing assignment for the drop-lowest-grade reward."
-      },
-      {
-        "score": 4,
-        "text": "Exactly two Core items fail."
-      },
-      {
-        "score": 2,
-        "text": "All three Core items fail, but the scene runs and you can explain your own code."
+        "text": "Minimum grade that counts as a passing assignment for the drop-lowest-grade reward."
       },
       {
         "score": 0,
-        "text": "The scene does not run, the repo URL or video is missing on Canvas, or you cannot explain your own code in the video."
+        "text": "The repo URL or recordings are missing on Canvas, the GitLab repository has no working Unity project, the scene does not run, or you cannot explain your own code in the desktop recording."
       }
     ]
   }

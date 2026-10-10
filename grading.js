@@ -8,6 +8,12 @@
   const failed = state.items.map(x => x.status === 'fail');
   const core = rubric.features.filter((x,i)=>x.core && failed[i]).length;
   const support = rubric.features.filter((x,i)=>!x.core && failed[i]).length;
+  if (rubric.scoring === 'points') {
+   // Points-based assignments (A6): an item scores its points only when it fully works and is shown in both recordings; no half points.
+   const score=rubric.features.reduce((sum,f,i)=>sum+(failed[i]?0:f.points),0);
+   const lost=rubric.features.filter((f,i)=>failed[i]).map(f=>`${f.number} (−${f.points})`);
+   return {score, core:0, support:lost.length, reason:`${score}/10: sum of the points for items that work and are shown in both recordings.${lost.length?` Not met: item ${lost.join(', ')}.`:''}${score<6?' Below 6/10 does not count as passing for the drop-lowest-grade reward.':''}`};
+  }
   let score=null, reason='';
   if (rubric.id === 'A1') {
    // A1 uses named items, not the shared core-count scale. Apply its lowest applicable ceiling.
@@ -51,9 +57,7 @@
    if(![0,2,4,6,8,10].includes(Number(state.manual)) || state.manual==='' || !state.manualReason?.trim()) return base;
    score=Number(state.manual); reason+=` Instructor decision: ${state.manualReason.trim()} (rubric grade ${score}/10).`;
   }
-  if(rubric.id==='A6' && !base.automaticZero && !state.hardware) return {...base,score:null,pending:true,reason:'Confirm whether the demonstration uses a headset or only the simulator.'};
   const raw=score, caps=[];
-  if(rubric.id==='A6' && state.hardware==='simulator') {score=Math.min(score,8);caps.push('Simulator ceiling: 8/10');}
   if(!base.automaticZero && state.pre?.some(x => x.warningOnly && x.status === 'fail')) {
    caps.push('Warning: Repository URL missing or invalid on Canvas (advisory warning; grade not reduced to 0).');
   }
