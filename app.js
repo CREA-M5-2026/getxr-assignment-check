@@ -1,12 +1,14 @@
 'use strict';
-const preDefs=r=>[
+const preDefs=r=>r.scoring==='points'?[
+ // A6 follows its Notion page: every submission requirement is an automatic 0/10.
+ ['Repository URL submitted on Canvas', 'Open the submitted link and confirm it points to the student\u2019s getxr-a6 GitLab project, shared with getxr2026 as Reporter. Missing or invalid triggers an immediate 0/10.', false],
+ ['Working Unity project; the scene runs', 'The GitLab repository contains a working Unity project, including PlacementGoal.cs, and the room scene runs in Play Mode. Any failure triggers an immediate 0/10.', false],
+ [r.videoLabel, 'Confirm both are available and playable. Play recording: the Game view in Play Mode (simulator, or headset through Quest Link), or, for a build tested on the headset, a recording from the headset\u2019s own recorder; no voice needed. Desktop recording: outside Play Mode, screen and voice. No time limit. Either recording missing triggers an immediate 0/10.', false],
+ ['Student explains their own code', 'The Desktop recording goes through items 1\u20136, selects the component or opens the code each one names, and shows the lines in PlacementGoal.cs for items 4\u20136. Any failure triggers an immediate 0/10.', false]
+]:[
  ['Repository URL submitted on Canvas', 'Open the submitted link and confirm it points to the intended GitLab project. If missing or invalid, mark Not met to issue an advisory warning in Canvas (does not trigger an immediate 0/10).', true],
- r.scoring==='points'
-  ?[r.videoLabel, 'Confirm both are available and playable: the Play recording (Game view in Play Mode, simulator or headset, no voice needed) and the Desktop recording (outside Play Mode, with voice). Any failure triggers an immediate 0/10.', false]
-  :['Video submitted on Canvas', 'Confirm the video is available and playable. Any failure triggers an immediate 0/10.', false],
- r.scoring==='points'
-  ?['Student explains their own code', 'The Desktop recording goes through items 1–6, selects the component or opens the code each one names, and shows the lines in PlacementGoal.cs for items 4–6. Any failure triggers an immediate 0/10.', false]
-  :['Student explains their own work', 'The narrated checklist walkthrough connects each feature to its script or method. No separate line-by-line code presentation is required. Any failure triggers an immediate 0/10.', false]
+ ['Video submitted on Canvas', 'Confirm the video is available and playable. Any failure triggers an immediate 0/10.', false],
+ ['Student explains their own work', 'The narrated checklist walkthrough connects each feature to its script or method. No separate line-by-line code presentation is required. Any failure triggers an immediate 0/10.', false]
 ];
 const $=id=>document.getElementById(id);
 const blank=([,,warningOnly])=>({status:'pending',note:'',warningOnly:Boolean(warningOnly)});

@@ -1,4 +1,4 @@
-// Snapshot of the live Notion assignment pages, retrieved 2026-09-22. A5 updated 2026-10-04; A6 rewritten 2026-10-10.
+// Snapshot of the live Notion assignment pages, retrieved 2026-09-22. A5 updated 2026-10-04; A6 rewritten 2026-10-10, checked against Notion 2026-10-17.
 globalThis.RUBRICS = [
   {
     "id": "A1",
@@ -395,7 +395,7 @@ globalThis.RUBRICS = [
     "id": "A6",
     "title": "VR Basics",
     "url": "https://app.notion.com/p/3c188488af49811294bec19234be5215",
-    "edited": "2026-10-10T19:14:01.469Z",
+    "edited": "2026-10-14T10:43:20.067Z",
     "workInProgress": false,
     "scoring": "points",
     "videoLabel": "Both recordings (Play + Desktop) submitted on Canvas",
